@@ -31,6 +31,7 @@ env:
   SSH_ACTIONS: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
+  CACHE_TOOLCHAIN: true
   TZ: Asia/Shanghai
   ###############改名字##############
   OPENWRT_NAME: OpenWrt-RAX3000M
@@ -70,13 +71,6 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-
-    - name: Cache Toolchain
-      if: env.CACHE_TOOLCHAIN == 'true'
-      uses: HiGarfield/cachewrtbuild@main
-      with:
-        ccache: false
-        mixkey: ${{ env.REPO_BRANCH }}-${{ env.OPENWRT_NAME }}
         
     - name: 清理磁盘空间(Ubuntu)
       uses: jlumbroso/free-disk-space@main
@@ -99,6 +93,14 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+    - name: 缓存Toolchain
+      if: env.CACHE_TOOLCHAIN == 'true'
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        ccache: true
+        prefix: ${{ github.workspace }}/openwrt
+        mixkey: ${{ env.REPO_BRANCH }}-${{ env.OPENWRT_NAME }}
         
     - name: 加载feeds.conf.default & DIY_P1_SH
       run: |
