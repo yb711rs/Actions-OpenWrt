@@ -16,5 +16,6 @@
 # Add a feed source
 echo 'src-git helloworld https://github.com/fw876/helloworld' >> feeds.conf.default
 echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >> feeds.conf.default
-echo 'src-git luci-theme-argon https://github.com/jerrykuku/luci-theme-argon' >> feeds.conf.default
+
+git clone https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
 # git clone https://github.com/messense/aliyundrive-webdav package/messense
