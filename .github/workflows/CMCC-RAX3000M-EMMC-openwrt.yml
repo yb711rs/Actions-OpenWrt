@@ -120,6 +120,7 @@ jobs:
         cd openwrt
         rm -rf feeds/packages/lang/golang
         git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+        ll /usr/lib
         
     - name: 加载config & DIY_P2_SH
       run: |
